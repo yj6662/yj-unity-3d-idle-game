@@ -30,11 +30,9 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         GameManager.Instance.AddGold(enemyStatsData.rewardGold);
-
-        if (playerAI != null)
-        {
-            playerAI.TargetDefeated();
-        }
+        
+        GameManager.Instance.SpawnNextEnemy();
+        
         Destroy(gameObject);
     }
 }
