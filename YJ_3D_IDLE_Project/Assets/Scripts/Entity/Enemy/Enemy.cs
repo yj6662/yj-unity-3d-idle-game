@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHp -= damage;
+        Debug.Log("HP : " + currentHp);
 
         if (currentHp <= 0)
         {
@@ -32,7 +33,7 @@ public class Enemy : MonoBehaviour
 
         if (playerAI != null)
         {
-            playerAI.target = null;
+            playerAI.TargetDefeated();
         }
         Destroy(gameObject);
     }

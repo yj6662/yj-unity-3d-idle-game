@@ -1344,7 +1344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ea094d9a62ed74cbbc9a9e3d2c16dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStatsData: {fileID: 0}
+  enemyStatsData: {fileID: 11400000, guid: d7376a776b7305e48856701d4e4bd4d1, type: 2}
 --- !u!4 &1340892661
 Transform:
   m_ObjectHideFlags: 0
@@ -1785,7 +1785,7 @@ MonoBehaviour:
   shipStatsData: {fileID: 11400000, guid: 02302cc2bce63324e82b07b449b37e87, type: 2}
   detectionRange: 40
   attackCooldown: 2
-  target: {fileID: 543450652645710830}
+  target: {fileID: 1340892661}
 --- !u!114 &1654497127
 MonoBehaviour:
   m_ObjectHideFlags: 0
