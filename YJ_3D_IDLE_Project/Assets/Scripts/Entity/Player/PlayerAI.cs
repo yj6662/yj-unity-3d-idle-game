@@ -37,11 +37,24 @@ public class PlayerAI : MonoBehaviour
 
     void Move()
     {
+        if (target == null)
+        {
+            FindNewTarget();
+        }
         transform.Translate(Vector3.forward * shipStatsData.moveSpeed * Time.deltaTime);
         
         if (target != null && Vector3.Distance(transform.position, target.position) < detectionRange)
         {
             ChangeState(State.Attacking);
+        }
+    }
+
+    void FindNewTarget()
+    {
+        GameObject enemyObject = GameObject.FindGameObjectWithTag("Enemy");
+        if (enemyObject != null)
+        {
+            target = enemyObject.transform;
         }
     }
 
