@@ -73,7 +73,7 @@ public class PlayerAI : MonoBehaviour
         while (state == State.Attacking)
         {
             //TODO: 실제 공격 로직 넣기
-            Debug.Log("공격");
+            Debug.Log(GameManager.Instance.currentAttackPower + "공격");
 
             yield return new WaitForSeconds(attackCooldown);
         }

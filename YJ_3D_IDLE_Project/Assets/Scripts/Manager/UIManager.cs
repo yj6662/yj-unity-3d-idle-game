@@ -20,14 +20,14 @@ public class UIManager : MonoBehaviour
     
     void Update()
     {
-        if (GameManager.instance != null)
+        if (GameManager.Instance != null)
         {
-            goldText.text = GameManager.instance.gold.ToString();
+            goldText.text = GameManager.Instance.gold.ToString();
         }
     }
 
     public void OnClickUpgrade()
     {
-        GameManager.instance.TryUpgradeAttack(upgradeCost);
+        GameManager.Instance.TryUpgradeAttack(upgradeCost);
     }
 }
