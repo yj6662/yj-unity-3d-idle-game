@@ -70,12 +70,28 @@ public class PlayerAI : MonoBehaviour
 
     IEnumerator AttackCoroutine()
     {
+        Enemy enemy = target.GetComponent<Enemy>();
+        
         while (state == State.Attacking)
         {
-            //TODO: 실제 공격 로직 넣기
-            Debug.Log(GameManager.Instance.currentAttackPower + "공격");
-
+            if (enemy != null)
+            {
+                float attackDamage = GameManager.Instance.currentAttackPower;
+                Debug.Log(attackDamage + "공격");
+                enemy.TakeDamage(attackDamage);
+            }
+            else
+            {
+                TargetDefeated();
+                break;
+            }
             yield return new WaitForSeconds(attackCooldown);
         }
+    }
+
+    public void TargetDefeated()
+    {
+        target = null;
+        ChangeState(State.Moving);
     }
 }
