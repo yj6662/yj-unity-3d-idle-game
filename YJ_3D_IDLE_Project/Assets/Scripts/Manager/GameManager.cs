@@ -8,9 +8,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     
     [Header("스테이지")]
-    public StageData currentStage;
-    public Transform enemySpawnPoint;
+    public StageList stageList;
     private int currentEnemyIndex = 0;
+    private int currentStageIndex = 0;
     
     [Header("플레이어 데이터")]
     public ShipStatsData playerStatsData;
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartStage();
+        StartStage(currentStageIndex);
     }
 
     public void AddGold(int amount)
@@ -72,24 +72,50 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartStage()
+    public void StartStage(int stageIndex)
     {
+        currentStageIndex = stageIndex;
         currentEnemyIndex = 0;
+        
+        UIManager.Instance.UpdateStageText(stageList.stages[stageIndex].stageName);
         SpawnNextEnemy();
     }
 
     public void SpawnNextEnemy()
     {
+        StageData currentStage = stageList.stages[currentStageIndex];
         if (currentEnemyIndex >= currentStage.enemyPrefabs.Length)
         {
-            // TODO: 다음 스테이지
+            StartCoroutine(StageClearCoroutine());
             return;
         }
 
         GameObject enemySpawn = currentStage.enemyPrefabs[currentEnemyIndex];
-        Instantiate(enemySpawn, enemySpawnPoint.position, enemySpawnPoint.rotation);
+
+        if (currentEnemyIndex >= currentStage.spawnPoints.Length)
+        {
+            return;
+        }
+
+        Vector3 spawnPoint = currentStage.spawnPoints[currentEnemyIndex];
+        Instantiate(enemySpawn, spawnPoint, Quaternion.Euler(0, 180f, 0));
 
         currentEnemyIndex++;
+    }
+
+    IEnumerator StageClearCoroutine()
+    {
+        // TODO: 스테이지 클리어 UI
+        yield return new WaitForSeconds(2.0f);
+        
+        int nextStageIndex = currentStageIndex + 1;
+
+        if (nextStageIndex >= stageList.stages.Count)
+        {
+            nextStageIndex = 0;
+        }
+        
+        StartStage(nextStageIndex);
     }
 
     public bool TryUpgradeAttack(int cost)
