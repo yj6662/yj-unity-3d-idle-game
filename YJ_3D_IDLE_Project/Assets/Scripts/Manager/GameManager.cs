@@ -64,6 +64,11 @@ public class GameManager : MonoBehaviour
     {
         currentStageIndex = stageIndex;
         currentEnemyIndex = 0;
+
+        if (MapGenerator.Instance != null)
+        {
+            MapGenerator.Instance.GenerateMap();
+        }
         
         UIManager.Instance.UpdateStageText(stageList.stages[stageIndex].stageName);
         SpawnNextEnemy();
