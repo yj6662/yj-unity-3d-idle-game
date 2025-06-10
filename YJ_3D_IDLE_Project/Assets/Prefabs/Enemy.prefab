@@ -130,6 +130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyStatsData: {fileID: 11400000, guid: d7376a776b7305e48856701d4e4bd4d1, type: 2}
+  healthBar: {fileID: 3094037904096670296, guid: e48a5a0148a002a4fa84b4007324a516, type: 3}
+  healthBarAnchor: {fileID: 6155658343102867726}
   detectionRange: 40
   attackCooldown: 3
 --- !u!1 &2501500344369853458
@@ -326,7 +328,7 @@ Transform:
   m_GameObject: {fileID: 3161405019639056476}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.01, y: 3.84, z: 1.77}
+  m_LocalPosition: {x: -2.01, y: 5.277, z: 1.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

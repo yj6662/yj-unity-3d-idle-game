@@ -35,6 +35,10 @@ public class UIManager : MonoBehaviour
     public InventoryUI inventoryUI;
     public Button inventoryButton;
     
+    [Header("상태창 UI")]
+    public StatusUI statusUI;
+    public Button statusButton;
+    
     [Header("페이드 효과")]
     public Image fadeImage;
 
@@ -54,9 +58,9 @@ public class UIManager : MonoBehaviour
         upgradeCannonButton.onClick.AddListener(() => UpgradeManager.Instance.TryUpgradeCannon());
         upgradeHullButton.onClick.AddListener(() => UpgradeManager.Instance.TryUpgradeHull());
         upgradeSailButton.onClick.AddListener(() => UpgradeManager.Instance.TryUpgradeSail());
-        useItemButton.onClick.AddListener(OnClickUseItem);
         inventoryButton.onClick.AddListener(OnClickInventoryOpen);
         upgradeButton.onClick.AddListener(OnClickUpgradeOpen);
+        statusButton.onClick.AddListener(statusUI.OpenPanel);
         
         if (Player.Instance != null)
         {
