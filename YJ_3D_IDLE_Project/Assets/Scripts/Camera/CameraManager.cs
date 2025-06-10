@@ -32,7 +32,7 @@ public class CameraManager : MonoBehaviour
 
             if (CameraNoise != null)
             {
-                CameraNoise.m_AmplitudeGain = 0f;
+                CameraNoise.m_AmplitudeGain = 0.1f;
             }
         }
     }

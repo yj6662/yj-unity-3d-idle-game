@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
         OnHpChanged?.Invoke(currentHp, maxHp);
         if (CameraManager.Instance != null)
         {
-            CameraManager.Instance.ShakeCamera(3.0f, 1f);
+            CameraManager.Instance.ShakeCamera(2.0f, 0.2f);
         }
         if (currentHp <= 0)
         {
