@@ -34,6 +34,9 @@ public class UIManager : MonoBehaviour
     [Header("인벤토리")]
     public InventoryUI inventoryUI;
     public Button inventoryButton;
+    
+    [Header("페이드 효과")]
+    public Image fadeImage;
 
     void Awake()
     {
@@ -130,5 +133,41 @@ public class UIManager : MonoBehaviour
             hullInfoText.text = $"Lv.{Player.Instance.hullLevel}\nCost: {Player.Instance.GetHullUpgradeCost()}";
             sailInfoText.text = $"Lv.{Player.Instance.sailLevel}\nCost: {Player.Instance.GetSailUpgradeCost()}";
         }
+    }
+
+    public IEnumerator FadeOut(float duration = 1.0f)
+    {
+        fadeImage.gameObject.SetActive(true);
+        float timer = 0f;
+        Color color = fadeImage.color;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            color.a = Mathf.Lerp(0f, 1f, timer / duration);
+            fadeImage.color = color;
+            yield return null;
+        }
+
+        color.a = 1f;
+        fadeImage.color = color;
+    }
+    
+    public IEnumerator FadeIn(float duration = 1.0f)
+    {
+        float timer = 0f;
+        Color color = fadeImage.color;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            color.a = Mathf.Lerp(1f, 0f, timer / duration);
+            fadeImage.color = color;
+            yield return null;
+        }
+
+        color.a = 0f;
+        fadeImage.color = color;
+        fadeImage.gameObject.SetActive(false);
     }
 }
