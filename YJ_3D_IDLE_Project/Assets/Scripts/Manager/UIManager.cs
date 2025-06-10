@@ -9,13 +9,16 @@ public class UIManager : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI goldText;
     public Button upgradeButton;
+    public Button useItemButton;
     
-    [Header("업그레이드 정보")]
+    [Header("업그레이드/아이템 정보")]
     public int upgradeCost;
+    public ItemData useItem;
     
     void Start()
     {
         upgradeButton.onClick.AddListener(OnClickUpgrade);
+        useItemButton.onClick.AddListener(OnClickUseItem);
     }
     
     void Update()
@@ -29,5 +32,10 @@ public class UIManager : MonoBehaviour
     public void OnClickUpgrade()
     {
         GameManager.Instance.TryUpgradeAttack(upgradeCost);
+    }
+    
+    public void OnClickUseItem()
+    {
+        GameManager.Instance.ApplyBuff(useItem);
     }
 }
