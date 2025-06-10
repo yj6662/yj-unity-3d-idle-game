@@ -134,8 +134,7 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-        Time.timeScale = 0;
-        //TODO: 게임 오버 처리
+        animator.SetTrigger("isDie");
     }
     
 
