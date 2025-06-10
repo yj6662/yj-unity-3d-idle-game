@@ -16,3 +16,4 @@ MonoBehaviour:
   attackPower: 10
   moveSpeed: 5
   rewardGold: 50
+  rewardExp: 50

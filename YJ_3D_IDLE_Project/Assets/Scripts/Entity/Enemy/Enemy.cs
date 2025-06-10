@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     
     void Start()
     {
-        currentHp = enemyStatsData.maxHp;
+        currentHp = enemyStatsData.initialMaxHp;
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         
         playerTransform = playerObject.transform;
@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
     {
         if (player != null)
         {
-            player.TakeDamage(enemyStatsData.attackPower);
+            player.TakeDamage(enemyStatsData.initialAttackPower);
         }
     }
 }

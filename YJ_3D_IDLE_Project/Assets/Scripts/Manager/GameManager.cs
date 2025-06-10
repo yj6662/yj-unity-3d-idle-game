@@ -42,6 +42,12 @@ public class GameManager : MonoBehaviour
         Debug.Log("Gold : " + gold);
     }
 
+    public void SpendGold(int amount)
+    {
+        gold -= amount;
+        Debug.Log("Gold : " + gold);
+    }
+
     public void AddItem(ItemData itemData, int quantity = 1)
     {
         if (inventory.ContainsKey(itemData))
@@ -98,22 +104,6 @@ public class GameManager : MonoBehaviour
         }
         
         StartStage(nextStageIndex);
-    }
-
-    public bool TryUpgradeAttack(int cost)
-    {
-        if (gold >= cost)
-        {
-            gold -= cost;
-            Player.Instance.UpgradeAttack(5);
-            Debug.Log("공격력 업그레이드 성공");
-            return true;
-        }
-        else
-        {
-            Debug.Log("골드 부족");
-            return false;       
-        }
     }
 
     public void ApplyBuff(ItemData itemData)

@@ -11,16 +11,25 @@ public class UIManager : MonoBehaviour
     [Header("플레이어 상태")]
     public Slider hpSlider;
     public Slider expSlider;
+    public TextMeshProUGUI levelText;
     
     [Header("UI")]
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI stageText;
-    public Button upgradeButton;
     public Button useItemButton;
     
     [Header("업그레이드/아이템 정보")]
-    public int upgradeCost;
     public ItemData useItem;
+    
+    [Header("파츠 업그레이드 UI")]
+    public UpgradeUI upgradeUI;
+    public Button upgradeButton;
+    public Button upgradeCannonButton;
+    public Button upgradeHullButton;
+    public Button upgradeSailButton;
+    public TextMeshProUGUI cannonInfoText;
+    public TextMeshProUGUI hullInfoText;
+    public TextMeshProUGUI sailInfoText;
     
     [Header("인벤토리")]
     public InventoryUI inventoryUI;
@@ -39,14 +48,22 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
-        upgradeButton.onClick.AddListener(OnClickUpgrade);
+        upgradeCannonButton.onClick.AddListener(() => UpgradeManager.Instance.TryUpgradeCannon());
+        upgradeHullButton.onClick.AddListener(() => UpgradeManager.Instance.TryUpgradeHull());
+        upgradeSailButton.onClick.AddListener(() => UpgradeManager.Instance.TryUpgradeSail());
         useItemButton.onClick.AddListener(OnClickUseItem);
         inventoryButton.onClick.AddListener(OnClickInventoryOpen);
-
+        upgradeButton.onClick.AddListener(OnClickUpgradeOpen);
+        
         if (Player.Instance != null)
         {
             Player.Instance.OnHpChanged += UpdateHpUI;
             Player.Instance.OnXPChanged += UpdateXpUI;
+            Player.Instance.OnLevelUP += UpdateLevelUI;
+            Player.Instance.OnStatsUpdated += UpdatePartUpgradeUI;
+            
+            UpdateLevelUI(Player.Instance.level);
+            UpdatePartUpgradeUI();
         }
     }
     
@@ -57,11 +74,6 @@ public class UIManager : MonoBehaviour
             goldText.text = GameManager.Instance.gold.ToString();
         }
     }
-
-    public void OnClickUpgrade()
-    {
-        GameManager.Instance.TryUpgradeAttack(upgradeCost);
-    }
     
     public void OnClickUseItem()
     {
@@ -71,6 +83,11 @@ public class UIManager : MonoBehaviour
     public void OnClickInventoryOpen()
     {
         inventoryUI.OpenInventory();
+    }
+
+    public void OnClickUpgradeOpen()
+    {
+        upgradeUI.OpenUpgrade();
     }
 
     public void UpdateStageText(string text)
@@ -96,5 +113,22 @@ public class UIManager : MonoBehaviour
             expSlider.value = currentXp / nextLevelXp;
         }
     }
-    
+
+    void UpdateLevelUI(int level)
+    {
+        if (levelText != null)
+        {
+            levelText.text = "Lv. " + level.ToString();
+        }
+    }
+
+    void UpdatePartUpgradeUI()
+    {
+        if (Player.Instance != null)
+        {
+            cannonInfoText.text = $"Lv.{Player.Instance.cannonLevel}\nCost: {Player.Instance.GetCannonUpgradeCost()}";
+            hullInfoText.text = $"Lv.{Player.Instance.hullLevel}\nCost: {Player.Instance.GetHullUpgradeCost()}";
+            sailInfoText.text = $"Lv.{Player.Instance.sailLevel}\nCost: {Player.Instance.GetSailUpgradeCost()}";
+        }
+    }
 }
