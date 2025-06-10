@@ -16,9 +16,17 @@ public class GameManager : MonoBehaviour
     public ShipStatsData playerStatsData;
 
     public int gold = 0;
-    public float currentAttackPower;
+    public float baseAttackPower;
     public float maxHp;
 
+    [Header("버프 관리")]
+    private float attackBuffMultiplier = 1.0f;
+
+    public float CurrentFinalAttackPower
+    {
+        get { return baseAttackPower * attackBuffMultiplier; }
+    }
+    
     void Awake()
     {
         if (Instance == null)
@@ -34,7 +42,7 @@ public class GameManager : MonoBehaviour
         if (playerStatsData != null)
         {
             maxHp = playerStatsData.maxHp;
-            currentAttackPower = playerStatsData.attackPower;
+            baseAttackPower = playerStatsData.attackPower;
         }
     }
 
@@ -74,7 +82,7 @@ public class GameManager : MonoBehaviour
         if (gold >= cost)
         {
             gold -= cost;
-            currentAttackPower += 5; //예시, 추후 변수로 관리예정
+            baseAttackPower += 5; //예시, 추후 변수로 관리예정
             Debug.Log("공격력 업그레이드 성공");
             return true;
         }
@@ -83,5 +91,22 @@ public class GameManager : MonoBehaviour
             Debug.Log("골드 부족");
             return false;       
         }
+    }
+
+    public void ApplyBuff(ItemData itemData)
+    {
+        if (itemData.buffType == BuffType.AttackPower)
+        {
+            StartCoroutine(AttackBuffCoroutine(itemData.buffAmount, itemData.buffDuration));
+        }
+    }
+
+    IEnumerator AttackBuffCoroutine(float amount, float duration)
+    {
+        attackBuffMultiplier = amount;
+
+        yield return new WaitForSeconds(duration);
+
+        attackBuffMultiplier = 1.0f;
     }
 }

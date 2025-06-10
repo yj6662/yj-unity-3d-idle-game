@@ -89,7 +89,7 @@ public class PlayerAI : MonoBehaviour
         {
             if (enemy != null)
             {
-                float attackDamage = GameManager.Instance.currentAttackPower;
+                float attackDamage = GameManager.Instance.CurrentFinalAttackPower;
                 Debug.Log(attackDamage + "공격");
                 enemy.TakeDamage(attackDamage);
             }
