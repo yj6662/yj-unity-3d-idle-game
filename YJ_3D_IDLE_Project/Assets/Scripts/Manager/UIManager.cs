@@ -129,9 +129,9 @@ public class UIManager : MonoBehaviour
     {
         if (Player.Instance != null)
         {
-            cannonInfoText.text = $"Lv.{Player.Instance.cannonLevel}\nCost: {Player.Instance.GetCannonUpgradeCost()}";
-            hullInfoText.text = $"Lv.{Player.Instance.hullLevel}\nCost: {Player.Instance.GetHullUpgradeCost()}";
-            sailInfoText.text = $"Lv.{Player.Instance.sailLevel}\nCost: {Player.Instance.GetSailUpgradeCost()}";
+            cannonInfoText.text = $"공격력을 증가시킵니다.\n대포 Lv.{Player.Instance.cannonLevel}\nCost: {Player.Instance.GetCannonUpgradeCost()}";
+            hullInfoText.text = $"체력을 증가시킵니다.\n선체 Lv.{Player.Instance.hullLevel}\nCost: {Player.Instance.GetHullUpgradeCost()}";
+            sailInfoText.text = $"속도를 증가시킵니다.\n돛Lv.{Player.Instance.sailLevel}\nCost: {Player.Instance.GetSailUpgradeCost()}";
         }
     }
 
