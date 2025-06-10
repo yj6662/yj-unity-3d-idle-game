@@ -65,12 +65,17 @@ public class Player : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHp -= damage;
+        OnHpChanged?.Invoke(currentHp, maxHp);
+        if (CameraManager.Instance != null)
+        {
+            CameraManager.Instance.ShakeCamera(3.0f, 1f);
+        }
         if (currentHp <= 0)
         {
             currentHp = 0;
             Die();
         }
-        OnHpChanged?.Invoke(currentHp, maxHp);
+
     }
 
     public void AddExp(int amount)
