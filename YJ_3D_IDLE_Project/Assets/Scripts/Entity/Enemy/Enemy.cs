@@ -16,14 +16,22 @@ public class Enemy : MonoBehaviour
     [Header("AI관리")]
     public float detectionRange = 40f;
     public float attackCooldown = 3f;
+    
+    [Header("이펙트")]
+    public GameObject cannonFirePrefab;
+    public Transform firePoint;
 
     private float maxHp;
     private float currentHp;
     private Transform playerTransform;
     private Player player;
-    
+    private Animator animator;
     public event Action<float, float> OnHpChanged;
-    
+
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
     void Start()
     {
         maxHp = enemyStatsData.initialMaxHp;
@@ -66,6 +74,8 @@ public class Enemy : MonoBehaviour
     {
         currentHp -= damage;
         OnHpChanged?.Invoke(currentHp, maxHp);
+        
+        animator.SetTrigger("isDamaged");
 
         if (currentHp <= 0)
         {
@@ -75,18 +85,24 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        animator.SetTrigger("isDie");
         GameManager.Instance.AddGold(enemyStatsData.rewardGold);
         Player.Instance.AddExp(enemyStatsData.rewardExp);
         
         GameManager.Instance.SpawnNextEnemy();
         
-        Destroy(gameObject);
+        Destroy(gameObject, 1.0f);
     }
 
     void AttackPlayer()
     {
         if (player != null)
         {
+            animator.SetTrigger("isAttack");
+            if (cannonFirePrefab != null && firePoint != null)
+            {
+                Instantiate(cannonFirePrefab, firePoint.position, firePoint.rotation);
+            }
             player.TakeDamage(enemyStatsData.initialAttackPower);
         }
     }

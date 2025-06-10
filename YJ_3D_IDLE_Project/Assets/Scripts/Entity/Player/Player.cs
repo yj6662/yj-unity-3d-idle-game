@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
     public Transform healthBarAnchor;
     private FloatingHealthBar floatingHealthBar;
     
+    private Animator animator;
     
     public event Action<float, float> OnHpChanged;
     public event Action<float, float> OnXPChanged;
@@ -48,6 +49,8 @@ public class Player : MonoBehaviour
             Destroy(gameObject);
         }
 
+        animator = GetComponent<Animator>();
+        
         CalculateStats();
     }
 
@@ -86,6 +89,9 @@ public class Player : MonoBehaviour
     {
         currentHp -= damage;
         OnHpChanged?.Invoke(currentHp, maxHp);
+        
+        animator.SetTrigger("isDamaged");
+        
         if (CameraManager.Instance != null)
         {
             CameraManager.Instance.ShakeCamera(2.0f, 0.2f);
@@ -96,6 +102,11 @@ public class Player : MonoBehaviour
             Die();
         }
 
+    }
+
+    public void OnAttack()
+    {
+        animator.SetTrigger("isAttack");
     }
 
     public void AddExp(int amount)
@@ -123,8 +134,7 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-        Time.timeScale = 0;
-        //TODO: 게임 오버 처리
+        animator.SetTrigger("isDie");
     }
     
 

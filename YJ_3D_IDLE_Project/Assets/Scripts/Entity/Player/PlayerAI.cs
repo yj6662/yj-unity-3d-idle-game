@@ -19,6 +19,9 @@ public class PlayerAI : MonoBehaviour
     public float attackCooldown = 2f;
     public Transform target;
 
+    [Header("이펙트")] public GameObject cannonFirePrefab;
+    public Transform firePoint;
+
     private Coroutine attackCoroutine;
 
     private void Awake()
@@ -34,7 +37,6 @@ public class PlayerAI : MonoBehaviour
                 Move();
                 break;
             case State.Attacking:
-                Attack();
                 break;
         }
     }
@@ -61,11 +63,7 @@ public class PlayerAI : MonoBehaviour
             target = enemyObject.transform;
         }
     }
-
-    void Attack()
-    {
-        
-    }
+    
 
     void ChangeState(State newState)
     {
@@ -93,6 +91,13 @@ public class PlayerAI : MonoBehaviour
         {
             if (enemy != null)
             {
+                player.OnAttack();
+
+                if (cannonFirePrefab != null && firePoint != null)
+                {
+                    Instantiate(cannonFirePrefab, firePoint.position, firePoint.rotation);
+                }
+                
                 float attackDamage = player.CurrentFinalAttackPower;
                 Debug.Log(attackDamage + "공격");
                 enemy.TakeDamage(attackDamage);
