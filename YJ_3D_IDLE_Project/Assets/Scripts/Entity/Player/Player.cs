@@ -1,18 +1,154 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static Player Instance;
+    
+    public ShipStatsData baseStats;
+    
+    public float maxHp { get; private set; }
+    public float currentHp { get; private set; }
+    public float baseAttackPower { get; private set; }
+    public float moveSpeed { get; private set; }
+
+    [Header("레벨,경험치")]
+    public int level = 1;
+    public float exp = 0;
+    public float nextLevelExp = 100;
+
+    [Header("파츠 강화")] 
+    public int cannonLevel = 1;
+    public int hullLevel = 1;
+    public int sailLevel = 1;
+    
+    public event Action<float, float> OnHpChanged;
+    public event Action<float, float> OnXPChanged;
+    public event Action<int> OnLevelUP;
+    public event Action OnStatsUpdated;
+    
+    private float attackBuffMultiplier = 1.0f;
+
+    public float CurrentFinalAttackPower => baseAttackPower * attackBuffMultiplier;
+
+    private void Awake()
     {
-        
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        CalculateStats();
+        currentHp = maxHp;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        OnHpChanged?.Invoke(currentHp, maxHp);
+        OnXPChanged?.Invoke(exp, nextLevelExp);
     }
+
+    void CalculateStats()
+    {
+        if (baseStats == null) return;
+
+        maxHp = baseStats.initialMaxHp + (hullLevel - 1) * baseStats.hpPerUpgrade;
+        baseAttackPower = baseStats.initialAttackPower + (cannonLevel - 1) * baseStats.attackPerUpgrade;
+        moveSpeed = baseStats.initialMoveSpeed + (sailLevel - 1) * baseStats.speedPerUpgrade;
+        
+        OnStatsUpdated?.Invoke();
+    }
+    public void TakeDamage(float damage)
+    {
+        currentHp -= damage;
+        if (currentHp <= 0)
+        {
+            currentHp = 0;
+            Die();
+        }
+        OnHpChanged?.Invoke(currentHp, maxHp);
+    }
+
+    public void AddExp(int amount)
+    {
+        exp += amount;
+
+        while (exp >= nextLevelExp)
+        {
+            LevelUP();
+        }
+        
+        OnXPChanged?.Invoke(exp, nextLevelExp);
+    }
+
+    void LevelUP()
+    {
+        exp -= nextLevelExp;
+        level++;
+        nextLevelExp *= 1.2f;
+        maxHp += 10;
+        baseAttackPower += 2;
+        
+        Heal(maxHp);
+        
+        OnLevelUP?.Invoke(level);
+        OnStatsUpdated?.Invoke();
+    }
+
+    void Die()
+    {
+        Time.timeScale = 0;
+        //TODO: 게임 오버 처리
+    }
+
+    public void UpgradeAttack(float amount)
+    {
+        baseAttackPower += amount;
+    }
+
+    public IEnumerator ApplyAttackBuff(float amount, float duration)
+    {
+        attackBuffMultiplier = amount;
+
+        yield return new WaitForSeconds(duration);
+        attackBuffMultiplier = 1.0f;
+    }
+
+    public void UpgradeCannon()
+    {
+        cannonLevel++;
+        UpdateStats();
+    }
+    public void UpgradeHull()
+    {
+        hullLevel++;
+        UpdateStats();
+        Heal(baseStats.hpPerUpgrade);
+    }
+    public void UpgradeSail()
+    {
+        sailLevel++;
+        UpdateStats();
+    }
+    
+    void UpdateStats()
+    {
+        CalculateStats();
+        OnStatsUpdated?.Invoke();
+    }
+    public int GetCannonUpgradeCost() => 10 * cannonLevel;
+    public int GetHullUpgradeCost() => 10 * hullLevel;
+    public int GetSailUpgradeCost() => 10 * sailLevel;
+    
+    public void Heal(float amount)
+    {
+        currentHp = Mathf.Min(currentHp + amount, maxHp);
+        OnHpChanged?.Invoke(currentHp, maxHp);
+    }
+
 }
+
