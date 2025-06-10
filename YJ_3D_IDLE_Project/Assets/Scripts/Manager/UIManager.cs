@@ -8,6 +8,10 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
     
+    [Header("플레이어 상태")]
+    public Slider hpSlider;
+    public Slider expSlider;
+    
     [Header("UI")]
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI stageText;
@@ -38,6 +42,12 @@ public class UIManager : MonoBehaviour
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         useItemButton.onClick.AddListener(OnClickUseItem);
         inventoryButton.onClick.AddListener(OnClickInventoryOpen);
+
+        if (Player.Instance != null)
+        {
+            Player.Instance.OnHpChanged += UpdateHpUI;
+            Player.Instance.OnXPChanged += UpdateXpUI;
+        }
     }
     
     void Update()
@@ -69,6 +79,22 @@ public class UIManager : MonoBehaviour
         {
             stageText.text = text;
         }
-            
     }
+
+    void UpdateHpUI(float currentHp, float maxHp)
+    {
+        if (hpSlider != null)
+        {
+            hpSlider.value = currentHp / maxHp;
+        }
+    }
+
+    void UpdateXpUI(float currentXp, float nextLevelXp)
+    {
+        if (expSlider != null)
+        {
+            expSlider.value = currentXp / nextLevelXp;
+        }
+    }
+    
 }

@@ -12,4 +12,5 @@ public class ShipStatsData : ScriptableObject
     
     [Header("보상 정보")]
     public int rewardGold;
+    public int rewardExp;
 }

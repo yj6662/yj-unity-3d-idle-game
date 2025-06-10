@@ -1953,6 +1953,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2385ecfdaf57240a26b54ee39f3290, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpSlider: {fileID: 692962058}
+  expSlider: {fileID: 639011341}
   goldText: {fileID: 1439795513}
   stageText: {fileID: 955031207}
   upgradeButton: {fileID: 1674423746}
@@ -2496,6 +2498,9 @@ MonoBehaviour:
   currentHp: 0
   baseAttackPower: 10
   moveSpeed: 10
+  level: 1
+  exp: 0
+  nextLevelExp: 100
 --- !u!4 &1654497128
 Transform:
   m_ObjectHideFlags: 0

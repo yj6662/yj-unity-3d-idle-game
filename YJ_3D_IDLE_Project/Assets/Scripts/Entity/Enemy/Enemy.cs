@@ -54,6 +54,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         GameManager.Instance.AddGold(enemyStatsData.rewardGold);
+        Player.Instance.AddExp(enemyStatsData.rewardExp);
         
         GameManager.Instance.SpawnNextEnemy();
         
