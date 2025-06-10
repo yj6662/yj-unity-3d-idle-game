@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     
     [Header("플레이어 상태")]
-    public Slider hpSlider;
+    // public Slider hpSlider;
     public Slider expSlider;
     public TextMeshProUGUI levelText;
     
@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
         
         if (Player.Instance != null)
         {
-            Player.Instance.OnHpChanged += UpdateHpUI;
+            //Player.Instance.OnHpChanged += UpdateHpUI;
             Player.Instance.OnXPChanged += UpdateXpUI;
             Player.Instance.OnLevelUP += UpdateLevelUI;
             Player.Instance.OnStatsUpdated += UpdatePartUpgradeUI;
@@ -101,13 +101,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void UpdateHpUI(float currentHp, float maxHp)
+    /*void UpdateHpUI(float currentHp, float maxHp)
     {
         if (hpSlider != null)
         {
             hpSlider.value = currentHp / maxHp;
         }
-    }
+    }*/
 
     void UpdateXpUI(float currentXp, float nextLevelXp)
     {
