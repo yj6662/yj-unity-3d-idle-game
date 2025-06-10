@@ -111,4 +111,10 @@ public class PlayerAI : MonoBehaviour
         target = null;
         ChangeState(State.Moving);
     }
+    
+    public void ResetPosition()
+    {
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+    }
 }

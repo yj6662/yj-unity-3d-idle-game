@@ -93,8 +93,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator StageClearCoroutine()
     {
-        // TODO: 스테이지 클리어 UI
-        yield return new WaitForSeconds(2.0f);
+        yield return StartCoroutine(UIManager.Instance.FadeOut());
+        
+        Player.Instance.GetComponent<PlayerAI>().ResetPosition();
         
         int nextStageIndex = currentStageIndex + 1;
 
@@ -104,6 +105,8 @@ public class GameManager : MonoBehaviour
         }
         
         StartStage(nextStageIndex);
+        
+        yield return StartCoroutine(UIManager.Instance.FadeIn());
     }
 
     public void ApplyBuff(ItemData itemData)
