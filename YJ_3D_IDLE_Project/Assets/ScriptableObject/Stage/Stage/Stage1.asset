@@ -18,3 +18,7 @@ MonoBehaviour:
   - {fileID: 1988562454052371027, guid: 0daa8f9176d6780479a2f9511455e4d4, type: 3}
   - {fileID: 1988562454052371027, guid: 0daa8f9176d6780479a2f9511455e4d4, type: 3}
   - {fileID: 1988562454052371027, guid: 0daa8f9176d6780479a2f9511455e4d4, type: 3}
+  spawnPoints:
+  - {x: 0, y: 0, z: 100}
+  - {x: 0, y: 0, z: 150}
+  - {x: 0, y: 0, z: 200}

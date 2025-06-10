@@ -2234,11 +2234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageList: {fileID: 11400000, guid: b5c4856e17b1abb489c4c68306fed5d3, type: 2}
-  enemySpawnPoint: {fileID: 152370182}
-  playerStatsData: {fileID: 11400000, guid: 02302cc2bce63324e82b07b449b37e87, type: 2}
   gold: 0
-  baseAttackPower: 0
-  maxHp: 0
 --- !u!1 &1439795511
 GameObject:
   m_ObjectHideFlags: 0
@@ -2462,7 +2458,7 @@ GameObject:
   - component: {fileID: 1654497126}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2480,7 +2476,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  shipStatsData: {fileID: 11400000, guid: 02302cc2bce63324e82b07b449b37e87, type: 2}
   detectionRange: 40
   attackCooldown: 2
   target: {fileID: 0}
@@ -2496,6 +2491,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df66aa7016a47a3458d5d9e6ebf04381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseStats: {fileID: 11400000, guid: 02302cc2bce63324e82b07b449b37e87, type: 2}
+  maxHp: 100
+  currentHp: 0
+  baseAttackPower: 10
+  moveSpeed: 10
 --- !u!4 &1654497128
 Transform:
   m_ObjectHideFlags: 0

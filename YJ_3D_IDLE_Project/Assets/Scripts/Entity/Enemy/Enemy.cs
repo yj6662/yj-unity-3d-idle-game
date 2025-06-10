@@ -6,14 +6,38 @@ public class Enemy : MonoBehaviour
 {
     [Header("데이터")]
     public ShipStatsData enemyStatsData;
+    
+    [Header("AI관리")]
+    public float detectionRange = 40f;
+    public float attackCooldown = 3f;
 
     private float currentHp;
-    private PlayerAI playerAI;
+    private Transform playerTransform;
+    private Player player;
     
     void Start()
     {
         currentHp = enemyStatsData.maxHp;
-        playerAI = FindObjectOfType<PlayerAI>();
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        
+        playerTransform = playerObject.transform;
+        player = playerObject.GetComponent<Player>();
+
+        StartCoroutine(AttackCoroutine());
+    }
+
+    IEnumerator AttackCoroutine()
+    {
+        while (true)
+        {
+            if (playerTransform != null &&
+                Vector3.Distance(transform.position, playerTransform.position) <= detectionRange)
+            {
+                AttackPlayer();
+            }
+
+            yield return new WaitForSeconds(attackCooldown);
+        }
     }
 
     public void TakeDamage(float damage)
@@ -34,5 +58,13 @@ public class Enemy : MonoBehaviour
         GameManager.Instance.SpawnNextEnemy();
         
         Destroy(gameObject);
+    }
+
+    void AttackPlayer()
+    {
+        if (player != null)
+        {
+            player.TakeDamage(enemyStatsData.attackPower);
+        }
     }
 }

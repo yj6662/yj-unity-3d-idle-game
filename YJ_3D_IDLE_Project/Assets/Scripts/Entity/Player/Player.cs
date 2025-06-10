@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance;
+    
     public ShipStatsData baseStats;
 
     public float maxHp;
@@ -18,7 +20,13 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        if (baseStats == null)
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(gameObject);
+        }
+        if (baseStats != null)
         {
             maxHp = baseStats.maxHp;
             currentHp = maxHp;

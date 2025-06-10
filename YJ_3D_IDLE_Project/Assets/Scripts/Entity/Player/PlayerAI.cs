@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerAI : MonoBehaviour
 {
+    private Player player;
     public enum State
     {
         Moving,
@@ -13,14 +14,17 @@ public class PlayerAI : MonoBehaviour
     
     public State state = State.Moving;
     
-    [Header("데이터")]
-    public ShipStatsData shipStatsData;
     [Header("상태")]
     public float detectionRange = 10f;
     public float attackCooldown = 2f;
     public Transform target;
 
     private Coroutine attackCoroutine;
+
+    private void Awake()
+    {
+        player = GetComponent<Player>();
+    }
 
     private void Update()
     {
@@ -41,7 +45,7 @@ public class PlayerAI : MonoBehaviour
         {
             FindNewTarget();
         }
-        transform.Translate(Vector3.forward * shipStatsData.moveSpeed * Time.deltaTime);
+        transform.Translate(Vector3.forward * player.moveSpeed * Time.deltaTime);
         
         if (target != null && Vector3.Distance(transform.position, target.position) < detectionRange)
         {
@@ -89,7 +93,7 @@ public class PlayerAI : MonoBehaviour
         {
             if (enemy != null)
             {
-                float attackDamage = GameManager.Instance.CurrentFinalAttackPower;
+                float attackDamage = player.CurrentFinalAttackPower;
                 Debug.Log(attackDamage + "공격");
                 enemy.TakeDamage(attackDamage);
             }
