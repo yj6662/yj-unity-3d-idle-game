@@ -6,8 +6,11 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
+    
     [Header("UI")]
     public TextMeshProUGUI goldText;
+    public TextMeshProUGUI stageText;
     public Button upgradeButton;
     public Button useItemButton;
     
@@ -18,7 +21,18 @@ public class UIManager : MonoBehaviour
     [Header("인벤토리")]
     public InventoryUI inventoryUI;
     public Button inventoryButton;
-    
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         upgradeButton.onClick.AddListener(OnClickUpgrade);
@@ -47,5 +61,14 @@ public class UIManager : MonoBehaviour
     public void OnClickInventoryOpen()
     {
         inventoryUI.OpenInventory();
+    }
+
+    public void UpdateStageText(string text)
+    {
+        if (stageText != null)
+        {
+            stageText.text = text;
+        }
+            
     }
 }

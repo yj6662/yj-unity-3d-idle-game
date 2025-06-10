@@ -8,9 +8,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     
     [Header("스테이지")]
-    public StageData currentStage;
+    public StageList stageList;
     public Transform enemySpawnPoint;
     private int currentEnemyIndex = 0;
+    private int currentStageIndex = 0;
     
     [Header("플레이어 데이터")]
     public ShipStatsData playerStatsData;
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartStage();
+        StartStage(currentStageIndex);
     }
 
     public void AddGold(int amount)
@@ -72,17 +73,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartStage()
+    public void StartStage(int stageIndex)
     {
+        currentStageIndex = stageIndex;
         currentEnemyIndex = 0;
+        
+        UIManager.Instance.UpdateStageText(stageList.stages[stageIndex].stageName);
         SpawnNextEnemy();
     }
 
     public void SpawnNextEnemy()
     {
+        StageData currentStage = stageList.stages[currentStageIndex];
         if (currentEnemyIndex >= currentStage.enemyPrefabs.Length)
         {
-            // TODO: 다음 스테이지
+            StartCoroutine(StageClearCoroutine());
             return;
         }
 
@@ -90,6 +95,21 @@ public class GameManager : MonoBehaviour
         Instantiate(enemySpawn, enemySpawnPoint.position, enemySpawnPoint.rotation);
 
         currentEnemyIndex++;
+    }
+
+    IEnumerator StageClearCoroutine()
+    {
+        // TODO: 스테이지 클리어 UI
+        yield return new WaitForSeconds(2.0f);
+        
+        int nextStageIndex = currentStageIndex + 1;
+
+        if (nextStageIndex >= stageList.stages.Count)
+        {
+            nextStageIndex = 0;
+        }
+        
+        StartStage(nextStageIndex);
     }
 
     public bool TryUpgradeAttack(int cost)
