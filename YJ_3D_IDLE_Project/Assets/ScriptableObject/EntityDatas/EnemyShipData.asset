@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69c80b7b450059b47a72cdfdd0385b22, type: 3}
   m_Name: EnemyShipData
   m_EditorClassIdentifier: 
-  maxHp: 100
-  attackPower: 10
-  moveSpeed: 5
+  initialMaxHp: 50
+  initialAttackPower: 10
+  initialMoveSpeed: 5
+  hpPerUpgrade: 0
+  attackPerUpgrade: 0
+  speedPerUpgrade: 0
   rewardGold: 50
   rewardExp: 50
