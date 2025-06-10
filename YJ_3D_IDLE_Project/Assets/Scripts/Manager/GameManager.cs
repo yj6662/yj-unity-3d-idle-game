@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     
     [Header("스테이지")]
     public StageList stageList;
-    public Transform enemySpawnPoint;
     private int currentEnemyIndex = 0;
     private int currentStageIndex = 0;
     
@@ -92,7 +91,14 @@ public class GameManager : MonoBehaviour
         }
 
         GameObject enemySpawn = currentStage.enemyPrefabs[currentEnemyIndex];
-        Instantiate(enemySpawn, enemySpawnPoint.position, enemySpawnPoint.rotation);
+
+        if (currentEnemyIndex >= currentStage.spawnPoints.Length)
+        {
+            return;
+        }
+
+        Vector3 spawnPoint = currentStage.spawnPoints[currentEnemyIndex];
+        Instantiate(enemySpawn, spawnPoint, Quaternion.Euler(0, 180f, 0));
 
         currentEnemyIndex++;
     }

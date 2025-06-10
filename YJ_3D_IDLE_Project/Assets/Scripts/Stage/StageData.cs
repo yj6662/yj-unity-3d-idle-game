@@ -9,4 +9,6 @@ public class StageData : ScriptableObject
     public string stageName;
     public string stageDescription;
     public GameObject[] enemyPrefabs;
+
+    [Header("적 소환 위치")] public Vector3[] spawnPoints;
 }
