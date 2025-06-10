@@ -24,6 +24,12 @@ public class Player : MonoBehaviour
     public int hullLevel = 1;
     public int sailLevel = 1;
     
+    [Header("UI")]
+    public GameObject healthBar;
+    public Transform healthBarAnchor;
+    private FloatingHealthBar floatingHealthBar;
+    
+    
     public event Action<float, float> OnHpChanged;
     public event Action<float, float> OnXPChanged;
     public event Action<int> OnLevelUP;
@@ -48,6 +54,17 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        if (healthBar != null && healthBarAnchor != null)
+        {
+            GameObject healthBarObj = Instantiate(healthBar, healthBarAnchor.position, Quaternion.identity, healthBarAnchor);
+            floatingHealthBar = healthBarObj.GetComponent<FloatingHealthBar>();
+        }
+
+        if (floatingHealthBar != null)
+        {
+            OnHpChanged += floatingHealthBar.UpdateHealthBar;
+        }
+
         OnHpChanged?.Invoke(currentHp, maxHp);
         OnXPChanged?.Invoke(exp, nextLevelExp);
     }
@@ -153,6 +170,14 @@ public class Player : MonoBehaviour
     {
         currentHp = Mathf.Min(currentHp + amount, maxHp);
         OnHpChanged?.Invoke(currentHp, maxHp);
+    }
+
+    private void OnDestroy()
+    {
+        if (floatingHealthBar != null)
+        {
+            OnHpChanged -= floatingHealthBar.UpdateHealthBar;
+        }
     }
 
 }
