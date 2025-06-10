@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
 
     [Header("버프 관리")]
     private float attackBuffMultiplier = 1.0f;
+    
+    [Header("인벤토리")]
+    public Dictionary<ItemData, int> inventory = new Dictionary<ItemData, int>();
 
     public float CurrentFinalAttackPower
     {
@@ -55,6 +58,18 @@ public class GameManager : MonoBehaviour
     {
         gold += amount;
         Debug.Log("Gold : " + gold);
+    }
+
+    public void AddItem(ItemData itemData, int quantity = 1)
+    {
+        if (inventory.ContainsKey(itemData))
+        {
+            inventory[itemData] += quantity;
+        }
+        else
+        {
+            inventory.Add(itemData, quantity);
+        }
     }
 
     public void StartStage()

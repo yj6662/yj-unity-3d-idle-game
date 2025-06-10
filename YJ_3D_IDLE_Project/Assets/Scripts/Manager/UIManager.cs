@@ -15,10 +15,15 @@ public class UIManager : MonoBehaviour
     public int upgradeCost;
     public ItemData useItem;
     
+    [Header("인벤토리")]
+    public InventoryUI inventoryUI;
+    public Button inventoryButton;
+    
     void Start()
     {
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         useItemButton.onClick.AddListener(OnClickUseItem);
+        inventoryButton.onClick.AddListener(OnClickInventoryOpen);
     }
     
     void Update()
@@ -37,5 +42,10 @@ public class UIManager : MonoBehaviour
     public void OnClickUseItem()
     {
         GameManager.Instance.ApplyBuff(useItem);
+    }
+    
+    public void OnClickInventoryOpen()
+    {
+        inventoryUI.OpenInventory();
     }
 }
