@@ -49,11 +49,12 @@ public class Player : MonoBehaviour
         }
 
         CalculateStats();
-        currentHp = maxHp;
     }
 
     private void Start()
     {
+        currentHp = maxHp;
+        
         if (healthBar != null && healthBarAnchor != null)
         {
             GameObject healthBarObj = Instantiate(healthBar, healthBarAnchor.position, Quaternion.identity, healthBarAnchor);
@@ -64,20 +65,22 @@ public class Player : MonoBehaviour
         {
             OnHpChanged += floatingHealthBar.UpdateHealthBar;
         }
-
         OnHpChanged?.Invoke(currentHp, maxHp);
         OnXPChanged?.Invoke(exp, nextLevelExp);
+        OnLevelUP?.Invoke(level);
+        OnStatsUpdated?.Invoke();
     }
 
     void CalculateStats()
     {
         if (baseStats == null) return;
-
-        maxHp = baseStats.initialMaxHp + (hullLevel - 1) * baseStats.hpPerUpgrade;
-        baseAttackPower = baseStats.initialAttackPower + (cannonLevel - 1) * baseStats.attackPerUpgrade;
-        moveSpeed = baseStats.initialMoveSpeed + (sailLevel - 1) * baseStats.speedPerUpgrade;
         
-        OnStatsUpdated?.Invoke();
+        float hpBonus = (level - 1) * 10; 
+        float attackBonus = (level - 1) * 2;
+        
+        maxHp = baseStats.initialMaxHp + ((hullLevel - 1) * baseStats.hpPerUpgrade) + hpBonus;
+        baseAttackPower = baseStats.initialAttackPower + ((cannonLevel - 1) * baseStats.attackPerUpgrade) + attackBonus;
+        moveSpeed = baseStats.initialMoveSpeed + ((sailLevel - 1) * baseStats.speedPerUpgrade);
     }
     public void TakeDamage(float damage)
     {
@@ -112,13 +115,10 @@ public class Player : MonoBehaviour
         exp -= nextLevelExp;
         level++;
         nextLevelExp *= 1.2f;
-        maxHp += 10;
-        baseAttackPower += 2;
-        
+        UpdateStats();
         Heal(maxHp);
         
         OnLevelUP?.Invoke(level);
-        OnStatsUpdated?.Invoke();
     }
 
     void Die()
@@ -126,11 +126,7 @@ public class Player : MonoBehaviour
         Time.timeScale = 0;
         //TODO: 게임 오버 처리
     }
-
-    public void UpgradeAttack(float amount)
-    {
-        baseAttackPower += amount;
-    }
+    
 
     public IEnumerator ApplyAttackBuff(float amount, float duration)
     {
