@@ -21,9 +21,13 @@ public class Enemy : MonoBehaviour
     private float currentHp;
     private Transform playerTransform;
     private Player player;
-    
+    private Animator animator;
     public event Action<float, float> OnHpChanged;
-    
+
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
     void Start()
     {
         maxHp = enemyStatsData.initialMaxHp;
@@ -66,6 +70,8 @@ public class Enemy : MonoBehaviour
     {
         currentHp -= damage;
         OnHpChanged?.Invoke(currentHp, maxHp);
+        
+        animator.SetTrigger("isDamaged");
 
         if (currentHp <= 0)
         {
@@ -87,6 +93,7 @@ public class Enemy : MonoBehaviour
     {
         if (player != null)
         {
+            animator.SetTrigger("isAttack");
             player.TakeDamage(enemyStatsData.initialAttackPower);
         }
     }
