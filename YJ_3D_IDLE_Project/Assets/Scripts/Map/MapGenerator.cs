@@ -29,7 +29,8 @@ public class MapGenerator : MonoBehaviour
 
     public void GenerateMap()
     {
-        ClearMap();
+        // 지정된 범위 내에 무작위 위치에 무작위 크기 범위의 바위 생성
+        ClearMap(); // 이전 스테이지의 바위 삭제
 
         for (int i = 0; i < numberOfRocks; i++)
         {

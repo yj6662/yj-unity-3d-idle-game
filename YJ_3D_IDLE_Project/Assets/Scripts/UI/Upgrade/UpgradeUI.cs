@@ -31,6 +31,7 @@ public class UpgradeUI : MonoBehaviour
     public void OpenUpgrade()
     {
         upgradePanel.SetActive(true);
+        UpdatePanel();
     }
     private void CloseUpgrade()
     {

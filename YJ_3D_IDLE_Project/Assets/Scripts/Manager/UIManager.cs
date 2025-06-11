@@ -6,6 +6,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    // UI를 총괄하는 매니저
     public static UIManager Instance;
     
     [Header("플레이어 상태")]
@@ -30,7 +31,7 @@ public class UIManager : MonoBehaviour
     public Button statusButton;
     
     [Header("페이드 효과")]
-    public Image fadeImage;
+    public Image fadeImage; // 스테이지 전환 시 사용될 이미지
 
     void Awake()
     {
@@ -45,10 +46,12 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
+        // UI 패널들을 여는 버튼에 리스너 연결
         inventoryButton.onClick.AddListener(inventoryUI.OpenInventory);
         upgradeButton.onClick.AddListener(upgradeUI.OpenUpgrade);
         statusButton.onClick.AddListener(statusUI.OpenStatus);
         
+        // 이벤트들이 발생했을 때 UI를 업데이트하도록 연결
         if (Player.Instance != null)
         {
             Player.Instance.OnXPChanged += UpdateXpUI;
@@ -66,7 +69,6 @@ public class UIManager : MonoBehaviour
         }
     }
     
-
     public void UpdateStageText(string text)
     {
         if (stageText != null)

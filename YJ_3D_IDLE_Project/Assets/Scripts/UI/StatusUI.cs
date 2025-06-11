@@ -18,6 +18,7 @@ public class StatusUI : MonoBehaviour
     
     void Start()
     {
+        // 플레이어 정보 관련 이벤트를 모두 구독하여 UI 업데이트
         if (Player.Instance != null)
         {
             Player.Instance.OnStatsUpdated += UpdateUI;
@@ -26,7 +27,6 @@ public class StatusUI : MonoBehaviour
         }
         
         closeButton.onClick.AddListener(CloseStatus);
-        
         CloseStatus();
     }
     
@@ -52,15 +52,5 @@ public class StatusUI : MonoBehaviour
     private void CloseStatus()
     { 
         statusPanel.SetActive(false);
-    }
-
-    private void OnDestroy()
-    {
-        if (Player.Instance != null)
-        {
-            Player.Instance.OnStatsUpdated -= UpdateUI;
-            Player.Instance.OnHpChanged -= (currentHp, maxHp) => UpdateUI();
-            Player.Instance.OnLevelUP -= (level) => UpdateUI();
-        }
     }
 }
