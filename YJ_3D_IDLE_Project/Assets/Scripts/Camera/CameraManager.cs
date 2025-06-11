@@ -7,6 +7,7 @@ using Cinemachine;
 public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance;
+    
     public CinemachineVirtualCamera virtualCamera;
     private CinemachineBasicMultiChannelPerlin CameraNoise;
 
@@ -37,6 +38,7 @@ public class CameraManager : MonoBehaviour
 
     public void ShakeCamera(float intensity, float duration)
     {
+        // TakeDamage에서 호출
         if (CameraNoise != null)
         {
             StartCoroutine(ShakeCoroutine(intensity, duration));
@@ -45,6 +47,7 @@ public class CameraManager : MonoBehaviour
     
     private IEnumerator ShakeCoroutine(float intensity, float duration)
     {
+        // intensity만큼의 흔들림을 duration초 동안 지속
         CameraNoise.m_AmplitudeGain = intensity;
         
         yield return new WaitForSeconds(duration);
