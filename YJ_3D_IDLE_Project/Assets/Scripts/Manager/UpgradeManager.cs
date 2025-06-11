@@ -24,7 +24,7 @@ public class UpgradeManager : MonoBehaviour
 
         if (GameManager.Instance.gold >= cost)
         {
-            GameManager.Instance.gold -= cost;
+            GameManager.Instance.SpendGold(cost);
             Player.Instance.UpgradeCannon();
         }
         else
@@ -39,7 +39,7 @@ public class UpgradeManager : MonoBehaviour
 
         if (GameManager.Instance.gold >= cost)
         {
-            GameManager.Instance.gold -= cost;
+            GameManager.Instance.SpendGold(cost);
             Player.Instance.UpgradeHull();
         }
         else
@@ -54,7 +54,7 @@ public class UpgradeManager : MonoBehaviour
 
         if (GameManager.Instance.gold >= cost)
         {
-            GameManager.Instance.gold -= cost;
+            GameManager.Instance.SpendGold(cost);
             Player.Instance.UpgradeSail();
         }
         else
