@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Gold : " + gold);
     }
 
-    public void AddItem(ItemData itemData, int quantity = 1)
+    public void AddItem(ItemData itemData, int quantity)
     {
         if (inventory.ContainsKey(itemData))
         {
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartStage(int stageIndex)
+    private void StartStage(int stageIndex)
     {
         currentStageIndex = stageIndex;
         currentEnemyIndex = 0;
@@ -134,29 +134,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SaveGame()
+    private void SaveGame()
     {
         PlayerPrefs.SetInt(KEY_PLAYER_LEVEL, Player.Instance.level);
         PlayerPrefs.SetFloat(KEY_PLAYER_XP, Player.Instance.exp);
         PlayerPrefs.SetInt(KEY_CANNON_LEVEL, Player.Instance.cannonLevel);
         PlayerPrefs.SetInt(KEY_HULL_LEVEL, Player.Instance.hullLevel);
         PlayerPrefs.SetInt(KEY_SAIL_LEVEL, Player.Instance.sailLevel);
-        PlayerPrefs.SetInt(KEY_GOLD, this.gold);
-        PlayerPrefs.SetInt(KEY_STAGE_INDEX, this.currentStageIndex);
+        PlayerPrefs.SetInt(KEY_GOLD, gold);
+        PlayerPrefs.SetInt(KEY_STAGE_INDEX, currentStageIndex);
         PlayerPrefs.Save();
         
         Debug.Log("게임 데이터 저장 완료 (PlayerPrefs).");
     }
 
-    public void LoadGame()
+    private void LoadGame()
     {
         Player.Instance.level = PlayerPrefs.GetInt(KEY_PLAYER_LEVEL, 1);
         Player.Instance.exp = PlayerPrefs.GetFloat(KEY_PLAYER_XP, 0f);
         Player.Instance.cannonLevel = PlayerPrefs.GetInt(KEY_CANNON_LEVEL, 1);
         Player.Instance.hullLevel = PlayerPrefs.GetInt(KEY_HULL_LEVEL, 1);
         Player.Instance.sailLevel = PlayerPrefs.GetInt(KEY_SAIL_LEVEL, 1);
-        this.gold = PlayerPrefs.GetInt(KEY_GOLD, 0);
-        this.currentStageIndex = PlayerPrefs.GetInt(KEY_STAGE_INDEX, 0);
+        gold = PlayerPrefs.GetInt(KEY_GOLD, 0);
+        currentStageIndex = PlayerPrefs.GetInt(KEY_STAGE_INDEX, 0);
         Player.Instance.ApplyLoadedData();
     }
 }

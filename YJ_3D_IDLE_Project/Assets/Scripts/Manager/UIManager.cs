@@ -9,33 +9,23 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     
     [Header("플레이어 상태")]
-    // public Slider hpSlider;
     public Slider expSlider;
     public TextMeshProUGUI levelText;
     
     [Header("UI")]
     public TextMeshProUGUI goldText;
     public TextMeshProUGUI stageText;
-    public Button useItemButton;
+
     
-    [Header("업그레이드/아이템 정보")]
-    public ItemData useItem;
-    
-    [Header("파츠 업그레이드 UI")]
+    [Header("업그레이드")]
     public UpgradeUI upgradeUI;
     public Button upgradeButton;
-    public Button upgradeCannonButton;
-    public Button upgradeHullButton;
-    public Button upgradeSailButton;
-    public TextMeshProUGUI cannonInfoText;
-    public TextMeshProUGUI hullInfoText;
-    public TextMeshProUGUI sailInfoText;
     
     [Header("인벤토리")]
     public InventoryUI inventoryUI;
     public Button inventoryButton;
     
-    [Header("상태창 UI")]
+    [Header("상태창")]
     public StatusUI statusUI;
     public Button statusButton;
     
@@ -55,22 +45,16 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
-        upgradeCannonButton.onClick.AddListener(() => UpgradeManager.Instance.TryUpgradeCannon());
-        upgradeHullButton.onClick.AddListener(() => UpgradeManager.Instance.TryUpgradeHull());
-        upgradeSailButton.onClick.AddListener(() => UpgradeManager.Instance.TryUpgradeSail());
-        inventoryButton.onClick.AddListener(OnClickInventoryOpen);
-        upgradeButton.onClick.AddListener(OnClickUpgradeOpen);
-        statusButton.onClick.AddListener(statusUI.OpenPanel);
+        inventoryButton.onClick.AddListener(inventoryUI.OpenInventory);
+        upgradeButton.onClick.AddListener(upgradeUI.OpenUpgrade);
+        statusButton.onClick.AddListener(statusUI.OpenStatus);
         
         if (Player.Instance != null)
         {
-            //Player.Instance.OnHpChanged += UpdateHpUI;
             Player.Instance.OnXPChanged += UpdateXpUI;
             Player.Instance.OnLevelUP += UpdateLevelUI;
-            Player.Instance.OnStatsUpdated += UpdatePartUpgradeUI;
             
             UpdateLevelUI(Player.Instance.level);
-            UpdatePartUpgradeUI();
         }
     }
     
@@ -82,20 +66,6 @@ public class UIManager : MonoBehaviour
         }
     }
     
-    public void OnClickUseItem()
-    {
-        GameManager.Instance.ApplyBuff(useItem);
-    }
-    
-    public void OnClickInventoryOpen()
-    {
-        inventoryUI.OpenInventory();
-    }
-
-    public void OnClickUpgradeOpen()
-    {
-        upgradeUI.OpenUpgrade();
-    }
 
     public void UpdateStageText(string text)
     {
@@ -104,14 +74,6 @@ public class UIManager : MonoBehaviour
             stageText.text = text;
         }
     }
-
-    /*void UpdateHpUI(float currentHp, float maxHp)
-    {
-        if (hpSlider != null)
-        {
-            hpSlider.value = currentHp / maxHp;
-        }
-    }*/
 
     void UpdateXpUI(float currentXp, float nextLevelXp)
     {
@@ -125,17 +87,7 @@ public class UIManager : MonoBehaviour
     {
         if (levelText != null)
         {
-            levelText.text = "Lv. " + level.ToString();
-        }
-    }
-
-    void UpdatePartUpgradeUI()
-    {
-        if (Player.Instance != null)
-        {
-            cannonInfoText.text = $"공격력을 증가시킵니다.\n대포 Lv.{Player.Instance.cannonLevel}\nCost: {Player.Instance.GetCannonUpgradeCost()}";
-            hullInfoText.text = $"체력을 증가시킵니다.\n선체 Lv.{Player.Instance.hullLevel}\nCost: {Player.Instance.GetHullUpgradeCost()}";
-            sailInfoText.text = $"속도를 증가시킵니다.\n돛Lv.{Player.Instance.sailLevel}\nCost: {Player.Instance.GetSailUpgradeCost()}";
+            levelText.text = $"Lv. {level}";
         }
     }
 
@@ -152,9 +104,6 @@ public class UIManager : MonoBehaviour
             fadeImage.color = color;
             yield return null;
         }
-
-        color.a = 1f;
-        fadeImage.color = color;
     }
     
     public IEnumerator FadeIn(float duration = 1.0f)
@@ -169,9 +118,6 @@ public class UIManager : MonoBehaviour
             fadeImage.color = color;
             yield return null;
         }
-
-        color.a = 0f;
-        fadeImage.color = color;
         fadeImage.gameObject.SetActive(false);
     }
 }

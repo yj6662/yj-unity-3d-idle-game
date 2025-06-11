@@ -24,7 +24,7 @@ public class InventoryUI : MonoBehaviour
         inventoryPanel.SetActive(true);
         UpdateInventory();
     }
-    public void CloseInventory()
+    private void CloseInventory()
     {
         inventoryPanel.SetActive(false);
     }

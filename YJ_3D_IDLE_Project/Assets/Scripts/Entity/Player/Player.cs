@@ -172,7 +172,7 @@ public class Player : MonoBehaviour
     public int GetHullUpgradeCost() => 10 * hullLevel;
     public int GetSailUpgradeCost() => 10 * sailLevel;
     
-    public void Heal(float amount)
+    private void Heal(float amount)
     {
         currentHp = Mathf.Min(currentHp + amount, maxHp);
         OnHpChanged?.Invoke(currentHp, maxHp);

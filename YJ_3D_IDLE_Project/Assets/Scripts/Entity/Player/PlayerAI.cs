@@ -111,7 +111,7 @@ public class PlayerAI : MonoBehaviour
         }
     }
 
-    public void TargetDefeated()
+    private void TargetDefeated()
     {
         target = null;
         ChangeState(State.Moving);

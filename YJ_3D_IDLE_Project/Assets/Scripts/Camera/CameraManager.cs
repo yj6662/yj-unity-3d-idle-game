@@ -7,9 +7,7 @@ using Cinemachine;
 public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance;
-    
     public CinemachineVirtualCamera virtualCamera;
-
     private CinemachineBasicMultiChannelPerlin CameraNoise;
 
     private void Awake()

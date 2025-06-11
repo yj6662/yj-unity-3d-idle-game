@@ -14,45 +14,33 @@ public class StatusUI : MonoBehaviour
     public TextMeshProUGUI speedText;
     public GameObject statusPanel;
     public Button closeButton;
-
-    private Player player;
+    
     
     void Start()
     {
-        player = Player.Instance;
-        if (player != null)
+        if (Player.Instance != null)
         {
-            player.OnStatsUpdated += UpdateUI;
-            player.OnHpChanged += UpdateHealthUI;
-            player.OnLevelUP += (level) => UpdateUI();
-
-            UpdateUI();
+            Player.Instance.OnStatsUpdated += UpdateUI;
+            Player.Instance.OnHpChanged += (currentHp, maxHp) => UpdateUI();
+            Player.Instance.OnLevelUP += (level) => UpdateUI();
         }
         
-        closeButton.onClick.AddListener(ClosePanel);
+        closeButton.onClick.AddListener(CloseStatus);
         
-        if (statusPanel != null)
-        {
-            ClosePanel();
-        }
+        CloseStatus();
     }
-
-    private void UpdateHealthUI(float currentHp, float maxHp)
+    
+    private void UpdateUI()
     {
-        UpdateUI();
-    }
-
-    public void UpdateUI()
-    {
-        if (player == null || !statusPanel.activeInHierarchy) return;
+        if (Player.Instance == null) return;
         
-        levelText.text = $"레벨: {player.level}";
-        healthText.text = $"체력: {player.currentHp:F0} / {player.maxHp:F0}";
-        attackPowerText.text = $"공격력: {player.baseAttackPower:F0}";
-        speedText.text = $"이동 속도: {player.moveSpeed:F1}";
+        levelText.text = $"레벨: {Player.Instance.level}";
+        healthText.text = $"체력: {Player.Instance.currentHp:F0} / {Player.Instance.maxHp:F0}";
+        attackPowerText.text = $"공격력: {Player.Instance.baseAttackPower:F0}";
+        speedText.text = $"이동 속도: {Player.Instance.moveSpeed:F1}";
     }
 
-    public void OpenPanel()
+    public void OpenStatus()
     {
         if (statusPanel != null)
         {
@@ -61,21 +49,18 @@ public class StatusUI : MonoBehaviour
         }
     }
     
-    public void ClosePanel()
-    {
-        if (statusPanel != null)
-        {
-            statusPanel.SetActive(false);
-        }
+    private void CloseStatus()
+    { 
+        statusPanel.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        if (player != null)
+        if (Player.Instance != null)
         {
-            player.OnStatsUpdated -= UpdateUI;
-            player.OnHpChanged -= UpdateHealthUI;
-            player.OnLevelUP -= (level) => UpdateUI();
+            Player.Instance.OnStatsUpdated -= UpdateUI;
+            Player.Instance.OnHpChanged -= (currentHp, maxHp) => UpdateUI();
+            Player.Instance.OnLevelUP -= (level) => UpdateUI();
         }
     }
 }
