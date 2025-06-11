@@ -186,5 +186,15 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ApplyLoadedData()
+    {
+        CalculateStats();
+        
+        currentHp = Mathf.Min(currentHp, maxHp);
+        OnHpChanged?.Invoke(currentHp, maxHp);
+        OnXPChanged?.Invoke(exp, nextLevelExp);
+        OnLevelUP?.Invoke(level);
+        OnStatsUpdated?.Invoke();
+    }
 }
 
